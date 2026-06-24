@@ -1,0 +1,50 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Build and package artifacts
+build/
+dist/
+*.egg-info/
+*.egg
+
+# FastAPI/Uvicorn runtime files
+*.log
+*.pid
+
+# Local databases, vector stores, and uploaded/generated data
+*.sqlite
+*.sqlite3
+*.db
+chroma/
+chroma_db/
+.chroma/
+uploads/
+data/
+tmp/
+temp/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+
