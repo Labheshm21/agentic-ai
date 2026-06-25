@@ -30,12 +30,17 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.ECR_REPO }}
           IMAGE_TAG: latest
         run: |
-          IMAGE_URI=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          if [ -z "$ECR_REPOSITORY" ]; then
+            echo "Missing GitHub secret: ECR_REPO"
+            exit 1
+          fi
+
+          IMAGE_URI="$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
           echo "Building image: $IMAGE_URI"
 
-          docker build -t $IMAGE_URI .
-          docker push $IMAGE_URI
+          docker build -t "$IMAGE_URI" .
+          docker push "$IMAGE_URI"
 
   Continuous-Deployment:
     needs: Continuous-Integration
@@ -59,7 +64,12 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.ECR_REPO }}
           IMAGE_TAG: latest
         run: |
-          docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          if [ -z "$ECR_REPOSITORY" ]; then
+            echo "Missing GitHub secret: ECR_REPO"
+            exit 1
+          fi
+
+          docker pull "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
       - name: Stop and remove old container
         run: |
@@ -72,6 +82,11 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.ECR_REPO }}
           IMAGE_TAG: latest
         run: |
+          if [ -z "$ECR_REPOSITORY" ]; then
+            echo "Missing GitHub secret: ECR_REPO"
+            exit 1
+          fi
+
           docker run -d \
             --name agentic-chatbot \
             --restart always \
@@ -83,7 +98,7 @@ jobs:
             -e LANGSMITH_ENDPOINT="${{ secrets.LANGSMITH_ENDPOINT }}" \
             -e LANGSMITH_API_KEY="${{ secrets.LANGSMITH_API_KEY }}" \
             -e LANGSMITH_PROJECT="${{ secrets.LANGSMITH_PROJECT }}" \
-            $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+            "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
       - name: Clean unused Docker images
         run: |
