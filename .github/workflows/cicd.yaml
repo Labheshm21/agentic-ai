@@ -95,6 +95,7 @@ jobs:
             -e GOOGLE_MODEL="${{ secrets.GOOGLE_MODEL }}" \
             -e TAVILY_API_KEY="${{ secrets.TAVILY_API_KEY }}" \
             -e LANGSMITH_TRACING="${{ secrets.LANGSMITH_TRACING }}" \
+            -e LANGCHAIN_TRACING="${{ secrets.LANGSMITH_TRACING }}" \
             -e LANGSMITH_ENDPOINT="${{ secrets.LANGSMITH_ENDPOINT }}" \
             -e LANGSMITH_API_KEY="${{ secrets.LANGSMITH_API_KEY }}" \
             -e LANGSMITH_PROJECT="${{ secrets.LANGSMITH_PROJECT }}" \

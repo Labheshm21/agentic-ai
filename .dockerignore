@@ -5,3 +5,11 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Local secrets and runtime state
+.env
+__pycache__/
+*.pyc
+data/
+chroma_db/
+uploads/
